@@ -13,10 +13,27 @@ export default defineConfig(
       "coverage/**",
     ],
   },
-  {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
 
-    extends: [js.configs.recommended, tseslint.configs.recommended],
+  {
+    files: ["**/*.{ts,mts,cts}"],
+
+    extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked],
+
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+
+    rules: {
+      "@typescript-eslint/no-floating-promises": "error",
+    },
+  },
+
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+
+    extends: [js.configs.recommended],
   },
 
   eslintConfigPrettier,
