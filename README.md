@@ -1,4 +1,3 @@
-# Playwright RealWorld Automation Framework
+# Playwright Toolshop Automation Framework
 
-Test automation framework built with Playwright and TypeScript
-for UI and API testing of the RealWorld application.
+Production-style test automation framework for the Practice Software Testing / Toolshop application built with Playwright and TypeScript. Covers UI and API testing, reusable fixtures, authentication, test data management, hybrid API/UI scenarios, CI execution and reporting.
