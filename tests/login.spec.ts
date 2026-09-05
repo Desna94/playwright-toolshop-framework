@@ -1,39 +1,31 @@
 import { test, expect } from "@playwright/test";
+import { LoginPage } from "../src/pages/login.page";
+import { AccountPage } from "../src/pages/account.page";
 
 test("user can log in with valid credentials", async ({ page }) => {
-  //Arrange
   const email = "customer@practicesoftwaretesting.com";
   const password = "welcome01";
 
-  await page.goto("/auth/login");
+  const loginPage = new LoginPage(page);
+  const accountPage = new AccountPage(page);
 
-  //Act
-  await page.locator('[data-test="email"]').fill(email);
-  await page.locator('[data-test="password"]').fill(password);
-  await page.locator('[data-test="login-submit"]').click();
+  await loginPage.goto();
+  await loginPage.login(email, password);
 
-  //Assert
   await expect(page).toHaveURL("/account");
-  await expect(page.locator('[data-test="page-title"]')).toHaveText(
-    "My account",
-  );
+  await expect(accountPage.pageTitle).toHaveText("My account");
 });
 
 test("user cannot log in with invalid credentials", async ({ page }) => {
-  //Arrange
   const email = "customer@practicesoftwaretesting.com";
   const wrongPassword = "wrongpassword";
+  const loginErrorMessage = "Invalid email or password";
 
-  await page.goto("/auth/login");
+  const loginPage = new LoginPage(page);
 
-  //Act
-  await page.locator('[data-test="email"]').fill(email);
-  await page.locator('[data-test="password"]').fill(wrongPassword);
-  await page.locator('[data-test="login-submit"]').click();
+  await loginPage.goto();
+  await loginPage.login(email, wrongPassword);
 
-  //Assert
   await expect(page).toHaveURL("/auth/login");
-  await expect(page.locator('[data-test="login-error"]')).toHaveText(
-    "Invalid email or password",
-  );
+  await expect(loginPage.loginError).toHaveText(loginErrorMessage);
 });
