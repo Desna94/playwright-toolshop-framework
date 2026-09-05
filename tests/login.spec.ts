@@ -21,14 +21,14 @@ test("user can log in with valid credentials", async ({ page }) => {
 
 test("user cannot log in with invalid credentials", async ({ page }) => {
   //Arrange
-  const email = "invalid@example.com";
-  const password = "wrongpassword";
+  const email = "customer@practicesoftwaretesting.com";
+  const wrongPassword = "wrongpassword";
 
   await page.goto("/auth/login");
 
   //Act
   await page.locator('[data-test="email"]').fill(email);
-  await page.locator('[data-test="password"]').fill(password);
+  await page.locator('[data-test="password"]').fill(wrongPassword);
   await page.locator('[data-test="login-submit"]').click();
 
   //Assert
