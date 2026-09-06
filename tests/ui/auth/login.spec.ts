@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "../src/pages/login.page";
-import { AccountPage } from "../src/pages/account.page";
-import { env } from "../src/utils/env";
+import { LoginPage } from "../../../src/pages/login.page";
+import { AccountPage } from "../../../src/pages/account.page";
+import { env } from "../../../src/utils/env";
 
 test("user can log in with valid credentials", async ({ page }) => {
   const loginPage = new LoginPage(page);
