@@ -35,4 +35,13 @@ export class HomePage {
 
     return Number(match[0]);
   }
+
+  async getProductName(index = 0): Promise<string> {
+    await this.productNames.nth(index).waitFor({ state: "visible" });
+    return this.productNames.nth(index).innerText();
+  }
+
+  async openProduct(index = 0): Promise<void> {
+    await this.productNames.nth(index).click();
+  }
 }
