@@ -12,11 +12,20 @@ export interface ProductCategory {
   id: string;
   name: string;
   slug: string;
+  parent_id?: string;
 }
 
 export interface ProductBrand {
   id: string;
   name: string;
+}
+
+export interface ProductSpec {
+  id: string;
+  product_id: string;
+  spec_name: string;
+  spec_value: string;
+  spec_unit: string | null;
 }
 
 export interface Product {
@@ -32,6 +41,10 @@ export interface Product {
   product_image: ProductImage;
   category: ProductCategory;
   brand: ProductBrand;
+}
+
+export interface ProductDetails extends Product {
+  specs: ProductSpec[];
 }
 
 export interface ProductsResponse {

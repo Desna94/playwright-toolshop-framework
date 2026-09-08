@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
-import type { ProductsResponse } from "../../src/api/models/product.model";
+import type {
+  ProductDetails,
+  ProductsResponse,
+} from "../../src/api/models/product.model";
 import { ProductsApiClient } from "../../src/api/clients/products.client";
 
 test("get products", async ({ request }) => {
@@ -22,4 +25,31 @@ test("get products", async ({ request }) => {
   expect(firstProduct.id).toEqual(expect.any(String));
   expect(firstProduct.name).toEqual(expect.any(String));
   expect(firstProduct.price).toEqual(expect.any(Number));
+});
+
+test("get product by ID", async ({ request }) => {
+  const productsApi = new ProductsApiClient(request);
+
+  const productsResponse = await productsApi.getProducts();
+
+  expect(productsResponse.status()).toBe(200);
+
+  const productsBody = (await productsResponse.json()) as ProductsResponse;
+
+  expect(productsBody.data.length).toBeGreaterThan(0);
+
+  const productId = productsBody.data[0].id;
+
+  const productResponse = await productsApi.getProduct(productId);
+
+  expect(productResponse.status()).toBe(200);
+  expect(productResponse.headers()["content-type"]).toContain(
+    "application/json",
+  );
+
+  const productBody = (await productResponse.json()) as ProductDetails;
+  expect(productBody.id).toBe(productId);
+  expect(productBody.name).toEqual(expect.any(String));
+  expect(productBody.price).toEqual(expect.any(Number));
+  expect(Array.isArray(productBody.specs)).toBe(true);
 });

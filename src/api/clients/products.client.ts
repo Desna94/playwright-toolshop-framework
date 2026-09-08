@@ -7,4 +7,8 @@ export class ProductsApiClient {
   async getProducts(): Promise<APIResponse> {
     return this.request.get(`${env.apiBaseUrl}/products`);
   }
+
+  async getProduct(id: string): Promise<APIResponse> {
+    return this.request.get(`${env.apiBaseUrl}/products/${id}`);
+  }
 }
