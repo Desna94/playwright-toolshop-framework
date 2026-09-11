@@ -17,4 +17,8 @@ export class AuthApiClient {
       data: credentials,
     });
   }
+
+  async getCurrentUser(): Promise<APIResponse> {
+    return this.request.get(`${env.apiBaseUrl}/users/me`);
+  }
 }
