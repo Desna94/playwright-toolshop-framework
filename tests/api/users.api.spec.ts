@@ -1,11 +1,10 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../src/fixtures/test.fixture";
 import type {
   RegisterUserRequest,
   RegisteredUserResponse,
 } from "../../src/api/models/user.model";
-import { AuthApiClient } from "../../src/api/clients/auth.client";
 
-test("register user", async ({ request }) => {
+test("register user", async ({ authApi }) => {
   const timestamp = Date.now();
 
   const userData: RegisterUserRequest = {
@@ -25,8 +24,6 @@ test("register user", async ({ request }) => {
     email: `test.user.${timestamp}@example.com`,
   };
 
-  const authApi = new AuthApiClient(request);
-
   const response = await authApi.register(userData);
 
   expect(response.status()).toBe(201);
@@ -36,7 +33,6 @@ test("register user", async ({ request }) => {
 
   expect(body.id).toEqual(expect.any(String));
   expect(body.created_at).toEqual(expect.any(String));
-
   expect(body.first_name).toBe(userData.first_name);
   expect(body.last_name).toBe(userData.last_name);
   expect(body.email).toBe(userData.email);

@@ -1,10 +1,7 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../src/fixtures/test.fixture";
 import type { ApiErrorResponse } from "../../src/api/models/error.model";
-import { AuthApiClient } from "../../src/api/clients/auth.client";
-import { ProductsApiClient } from "../../src/api/clients/products.client";
 
-test("unauthorized request validation", async ({ request }) => {
-  const authApi = new AuthApiClient(request);
+test("unauthorized request validation", async ({ authApi }) => {
   const response = await authApi.getCurrentUser();
 
   expect(response.status()).toBe(401);
@@ -15,10 +12,9 @@ test("unauthorized request validation", async ({ request }) => {
   expect(body.message).toBe("Unauthorized");
 });
 
-test("invalid resource validation", async ({ request }) => {
+test("invalid resource validation", async ({ productsApi }) => {
   const nonExistingProductId = "non-existing-product-id";
 
-  const productsApi = new ProductsApiClient(request);
   const response = await productsApi.getProduct(nonExistingProductId);
 
   expect(response.status()).toBe(404);

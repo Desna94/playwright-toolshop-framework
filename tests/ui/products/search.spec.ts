@@ -1,10 +1,7 @@
-import { test, expect } from "@playwright/test";
-import { HomePage } from "../../../src/pages/home.page";
+import { test, expect } from "../../../src/fixtures/test.fixture";
 
-test("user can search for products", async ({ page }) => {
+test("user can search for products", async ({ homePage }) => {
   const searchQuery = "hammer";
-
-  const homePage = new HomePage(page);
 
   await homePage.goto();
   await homePage.search(searchQuery);

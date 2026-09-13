@@ -1,12 +1,11 @@
-import { test, expect } from "@playwright/test";
-import { LoginPage } from "../../../src/pages/login.page";
-import { AccountPage } from "../../../src/pages/account.page";
+import { test, expect } from "../../../src/fixtures/test.fixture";
 import { env } from "../../../src/utils/env";
 
-test("user can log in with valid credentials", async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const accountPage = new AccountPage(page);
-
+test("user can log in with valid credentials", async ({
+  loginPage,
+  accountPage,
+  page,
+}) => {
   await loginPage.goto();
   await loginPage.login(env.userEmail, env.userPassword);
 
@@ -14,11 +13,12 @@ test("user can log in with valid credentials", async ({ page }) => {
   await expect(accountPage.pageTitle).toHaveText("My account");
 });
 
-test("user cannot log in with invalid credentials", async ({ page }) => {
+test("user cannot log in with invalid credentials", async ({
+  loginPage,
+  page,
+}) => {
   const wrongPassword = "wrongpassword";
   const loginErrorMessage = "Invalid email or password";
-
-  const loginPage = new LoginPage(page);
 
   await loginPage.goto();
   await loginPage.login(env.userEmail, wrongPassword);

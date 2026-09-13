@@ -1,13 +1,10 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../src/fixtures/test.fixture";
 import type {
   ProductDetails,
   ProductsResponse,
 } from "../../src/api/models/product.model";
-import { ProductsApiClient } from "../../src/api/clients/products.client";
 
-test("get products", async ({ request }) => {
-  const productsApi = new ProductsApiClient(request);
-
+test("get products", async ({ productsApi }) => {
   const response = await productsApi.getProducts();
 
   expect(response.status()).toBe(200);
@@ -27,9 +24,7 @@ test("get products", async ({ request }) => {
   expect(firstProduct.price).toEqual(expect.any(Number));
 });
 
-test("get product by ID", async ({ request }) => {
-  const productsApi = new ProductsApiClient(request);
-
+test("get product by ID", async ({ productsApi }) => {
   const productsResponse = await productsApi.getProducts();
 
   expect(productsResponse.status()).toBe(200);
@@ -48,6 +43,7 @@ test("get product by ID", async ({ request }) => {
   );
 
   const productBody = (await productResponse.json()) as ProductDetails;
+
   expect(productBody.id).toBe(productId);
   expect(productBody.name).toEqual(expect.any(String));
   expect(productBody.price).toEqual(expect.any(Number));
