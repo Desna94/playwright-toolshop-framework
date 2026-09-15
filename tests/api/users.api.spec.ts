@@ -1,28 +1,9 @@
 import { test, expect } from "../../src/fixtures/test.fixture";
-import type {
-  RegisterUserRequest,
-  RegisteredUserResponse,
-} from "../../src/api/models/user.model";
+import type { RegisteredUserResponse } from "../../src/api/models/user.model";
+import { createUser } from "../../src/data/user.data";
 
 test("register user", async ({ authApi }) => {
-  const timestamp = Date.now();
-
-  const userData: RegisterUserRequest = {
-    first_name: "John",
-    last_name: "Doe",
-    address: {
-      street: "Test Street",
-      house_number: "10",
-      city: "Test City",
-      state: "Test State",
-      country: "Test Country",
-      postal_code: "12345",
-    },
-    phone: "1234567890",
-    dob: "1990-01-01",
-    password: `Test-${timestamp}-Aa1!`,
-    email: `test.user.${timestamp}@example.com`,
-  };
+  const userData = createUser();
 
   const response = await authApi.register(userData);
 
