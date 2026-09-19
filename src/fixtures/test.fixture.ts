@@ -8,10 +8,12 @@ import { CheckoutPage } from "../pages/checkout.page";
 import { HomePage } from "../pages/home.page";
 import { LoginPage } from "../pages/login.page";
 import { ProductPage } from "../pages/product.page";
+import { FavoritesApiClient } from "../api/clients/favorites.client";
 
 type Fixtures = {
   authApi: AuthApiClient;
   productsApi: ProductsApiClient;
+  favoritesApi: FavoritesApiClient;
   accountPage: AccountPage;
   checkoutPage: CheckoutPage;
   homePage: HomePage;
@@ -31,6 +33,10 @@ export const test = base.extend<Fixtures>({
     const productsApi = new ProductsApiClient(request);
 
     await use(productsApi);
+  },
+
+  favoritesApi: async ({ request }, use) => {
+    await use(new FavoritesApiClient(request));
   },
 
   accountPage: async ({ page }, use) => {
